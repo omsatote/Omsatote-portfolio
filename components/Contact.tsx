@@ -117,11 +117,15 @@ const Contact: React.FC = () => {
                     >
                         <div>
                             <label className="block text-green-500 font-mono text-sm mb-2">&lt;name /&gt;</label>
-                            <input type="text" name="user_name" required className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-green-500 transition-colors font-mono" placeholder="Enter identity..." />
+                            <input type="text" name="name" required className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-green-500 transition-colors font-mono" placeholder="Enter identity..." />
                         </div>
                         <div>
                             <label className="block text-green-500 font-mono text-sm mb-2">&lt;email /&gt;</label>
-                            <input type="email" name="user_email" required className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-green-500 transition-colors font-mono" placeholder="Enter frequency..." />
+                            <input type="email" name="email" required className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-green-500 transition-colors font-mono" placeholder="Enter frequency..." />
+                        </div>
+                        <div>
+                            <label className="block text-green-500 font-mono text-sm mb-2">&lt;title /&gt;</label>
+                            <input type="text" name="title" required className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-green-500 transition-colors font-mono" placeholder="Enter subject..." />
                         </div>
                         <div>
                             <label className="block text-green-500 font-mono text-sm mb-2">&lt;message /&gt;</label>
