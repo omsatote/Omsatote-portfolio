@@ -10,10 +10,12 @@ const MotionForm = motion.form as any;
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const EMAILJS_AUTOREPLY_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_AUTOREPLY_TEMPLATE_ID;
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [formData, setFormData] = useState({ name: '', email: '' });
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,14 +24,27 @@ const Contact: React.FC = () => {
     setErrorMessage('');
 
     try {
+      // Send notification email to you
       await emailjs.sendForm(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         formRef.current!,
         EMAILJS_PUBLIC_KEY
       );
+      
+      // Send auto-reply email to the user
+      if (EMAILJS_AUTOREPLY_TEMPLATE_ID) {
+        await emailjs.sendForm(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_AUTOREPLY_TEMPLATE_ID,
+          formRef.current!,
+          EMAILJS_PUBLIC_KEY
+        );
+      }
+      
       setFormState('success');
       formRef.current?.reset();
+      setFormData({ name: '', email: '' });
     } catch (error: any) {
       setFormState('error');
       setErrorMessage(error?.text || 'Failed to send message. Please try again.');
@@ -115,13 +130,31 @@ const Contact: React.FC = () => {
                         onSubmit={handleSubmit} 
                         className="space-y-6"
                     >
+                        {/* Hidden fields for EmailJS template variables */}
+                        <input type="hidden" name="from_name" value={formData.name} />
+                        <input type="hidden" name="from_email" value={formData.email} />
+                        
                         <div>
                             <label className="block text-green-500 font-mono text-sm mb-2">&lt;name /&gt;</label>
-                            <input type="text" name="name" required className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-green-500 transition-colors font-mono" placeholder="Enter identity..." />
+                            <input 
+                                type="text" 
+                                name="name" 
+                                required 
+                                className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-green-500 transition-colors font-mono" 
+                                placeholder="Enter identity..." 
+                                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                            />
                         </div>
                         <div>
                             <label className="block text-green-500 font-mono text-sm mb-2">&lt;email /&gt;</label>
-                            <input type="email" name="email" required className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-green-500 transition-colors font-mono" placeholder="Enter frequency..." />
+                            <input 
+                                type="email" 
+                                name="email" 
+                                required 
+                                className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-green-500 transition-colors font-mono" 
+                                placeholder="Enter frequency..." 
+                                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                            />
                         </div>
                         <div>
                             <label className="block text-green-500 font-mono text-sm mb-2">&lt;title /&gt;</label>
