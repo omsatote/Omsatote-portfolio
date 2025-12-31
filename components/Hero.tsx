@@ -72,7 +72,7 @@ const TiltCard: React.FC = () => {
           className="absolute inset-0 rounded-xl overflow-hidden transform translate-z-10"
           style={{ transform: "translateZ(20px)" }}
         >
-             <img src="/components/image/om.jpg" alt="Hacker Profile" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
+             <img src="/om.jpg" alt="Hacker Profile" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
              <div className="absolute inset-0 bg-green-500/10 mix-blend-overlay"></div>
              {/* Glitch Overlay */}
              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
